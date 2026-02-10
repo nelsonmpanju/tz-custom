@@ -939,52 +939,70 @@ def on_cancel_fees(doc, method):
 
 
 def check_validate_delivery_note(doc=None, method=None, doc_name=None):
-    if not doc and doc_name:
+
+    # Load invoice if called by name
+    if not doc:
         doc = frappe.get_doc("Sales Invoice", doc_name)
-        doc.to_save = True
-    else:
-        doc.to_save = False
-    if doc.docstatus != 2:
-        doc.delivery_status = "Not Delivered"
-    else:
-        doc.to_save = False
+
+    # Never run on cancelled
+    if doc.docstatus == 2:
+        return
+
+    # Do not interfere with stock-entry invoices
     if doc.update_stock:
         return
 
+    total_qty = 0.0
+    total_delivered = 0.0
     part_delivery = False
-    # full_delivery = False
-    items_qty = 0
-    items_delivered_qty = 0
-    i = 0
+
     for item in doc.items:
-        if doc.is_new():
-            item.delivery_status = "Not Delivered"
-            item.delivered_qty = 0
-        items_qty += item.stock_qty
+        stock_qty = flt(item.stock_qty)
+        delivered_qty = flt(item.delivered_qty)
+
+        total_qty += stock_qty
+        total_delivered += delivered_qty
+
         if item.delivery_note or item.delivered_by_supplier:
             part_delivery = True
-            i += 1
-        if item.delivered_qty:
-            if item.stock_qty == item.delivered_qty:
-                item.delivery_status = "Delivered"
-            elif item.stock_qty < item.delivered_qty:
-                item.delivery_status = "Over Delivered"
-            elif item.stock_qty > item.delivered_qty and item.delivered_qty > 0:
-                item.delivery_status = "Part Delivered"
-            items_delivered_qty += item.delivered_qty
-    if i == len(doc.items):
-        doc.delivery_status = "Delivered"
-    elif doc.to_save and items_delivered_qty >= items_qty:
-        doc.delivery_status = "Delivered"
-    elif doc.to_save and items_delivered_qty <= items_qty and items_delivered_qty > 0:
-        doc.delivery_status = "Part Delivered"
-    elif part_delivery:
-        doc.delivery_status = "Part Delivered"
+
+        # Calculate line status
+        if delivered_qty <= 0:
+            row_status = "Not Delivered"
+        elif delivered_qty >= stock_qty:
+            row_status = "Delivered"
+        elif delivered_qty > 0:
+            row_status = "Part Delivered"
+        else:
+            row_status = "Not Delivered"
+
+        # Write directly to Sales Invoice Item
+        frappe.db.set_value(
+            "Sales Invoice Item",
+            item.name,
+            "delivery_status",
+            row_status,
+            update_modified=False
+        )
+
+    # Calculate invoice-level status
+    if total_qty > 0 and total_delivered >= total_qty:
+        invoice_status = "Delivered"
+    elif total_delivered > 0 or part_delivery:
+        invoice_status = "Part Delivered"
     else:
-        doc.delivery_status = "Not Delivered"
-    if doc.to_save:
-        doc.flags.ignore_permissions = True
-        doc.save()
+        invoice_status = "Not Delivered"
+
+    # Write directly to Sales Invoice
+    frappe.db.set_value(
+        "Sales Invoice",
+        doc.name,
+        "delivery_status",
+        invoice_status,
+        update_modified=False
+    )
+
+    frappe.db.commit()
 
 
 def check_submit_delivery_note(doc, method):

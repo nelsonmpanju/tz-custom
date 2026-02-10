@@ -1,8 +1,8 @@
 {
- "add_total_row": 0,
+ "add_total_row": 1,
+ "add_translate_data": 0,
  "columns": [],
  "creation": "2021-08-16 16:53:14.889431",
- "disable_prepared_report": 0,
  "disabled": 0,
  "docstatus": 0,
  "doctype": "Report",
@@ -24,13 +24,14 @@
  ],
  "idx": 0,
  "is_standard": "Yes",
- "modified": "2021-08-16 17:00:03.847173",
+ "letter_head": null,
+ "modified": "2026-02-06 16:26:52.167831",
  "modified_by": "Administrator",
  "module": "CSF TZ",
  "name": "NSSF CON5 Monthly Contribution - Online Version",
  "owner": "Administrator",
  "prepared_report": 0,
- "query": "SELECT emp.pension_fund_number AS \"MEMBER NO:Data:150\", \r\n       emp.first_name AS \"FIRST NAME:Data:150\",\r\n       emp.middle_name AS \"MIDDLE NAME:Data:150\",\r\n       emp.last_name AS \"LAST NAME:Data:150\",\r\n       ss.gross_pay AS \"WAGE:Float/2:150\"\r\nFROM `tabSalary Slip` ss RIGHT JOIN `tabEmployee` emp ON ss.employee = emp.name AND emp.pension_fund = 'NSSF'\r\nWHERE ss.docstatus = 1 \r\nAND   ss.start_date >= %(from_date)s\r\nAND   ss.end_date <= %(to_date)s\r\nHAVING  ss.gross_pay > 0\r\nORDER BY emp.name",
+ "query": "SELECT \n    emp.tin AS \"EMPLOYEE'S TIN:Data:150\",\n    emp.employment_type AS \"TYPE OF EMPLOYMENT:Data:150\",\n    emp.custom_residential_status AS \"RESIDENTIAL STATUS:Data:150\",\n    TRIM(CONCAT(emp.first_name, ' ', IFNULL(emp.middle_name, ''), ' ', emp.last_name)) AS \"NAME OF EMPLOYEE:Data:250\",\n    emp.pension_fund_number AS \"SOCIAL SECURITY NUMBER:Data:150\",\n    SUM(CASE WHEN sd.parentfield = 'earnings' AND sd.salary_component = 'Basic' THEN sd.amount ELSE 0 END) AS \"BASIC PAY:Float/2:150\",\n    SUM(CASE WHEN sd.parentfield = 'deductions' AND sd.salary_component = 'NSSF Employer' THEN sd.amount ELSE 0 END) AS \"NSSF EMPLOYER:Float/2:150\",\n    SUM(CASE WHEN sd.parentfield = 'deductions' AND sd.salary_component = 'NSSF' THEN sd.amount ELSE 0 END) AS \"NSSF EMPLOYEE:Float/2:150\",\n    SUM(CASE WHEN sd.parentfield = 'deductions' AND UPPER(TRIM(sd.salary_component)) LIKE '%%PAYE%%' THEN sd.amount ELSE 0 END) AS \"PAYE:Float/2:150\",\n    SUM(CASE WHEN sd.parentfield = 'deductions' AND sd.salary_component = 'WCF' THEN sd.amount ELSE 0 END) AS \"WCF:Float/2:150\",\n    SUM(CASE WHEN sd.parentfield = 'deductions' AND sd.salary_component = 'SDL' THEN sd.amount ELSE 0 END) AS \"SDL:Float/2:150\"\nFROM `tabSalary Slip` ss \nINNER JOIN `tabEmployee` emp ON ss.employee = emp.name \nLEFT JOIN `tabSalary Detail` sd ON sd.parent = ss.name\nWHERE ss.docstatus = 1 \n  AND ss.start_date >= %(from_date)s\n  AND ss.end_date <= %(to_date)s\nGROUP BY ss.name, emp.name\nHAVING SUM(CASE WHEN sd.parentfield = 'deductions' AND sd.salary_component = 'NSSF' THEN sd.amount ELSE 0 END) > 0\nORDER BY emp.name",
  "ref_doctype": "Salary Slip",
  "report_name": "NSSF CON5 Monthly Contribution - Online Version",
  "report_type": "Query Report",
@@ -49,9 +50,7 @@
   },
   {
    "role": "All"
-  },
-  {
-   "role": "Employee Self Service"
   }
- ]
+ ],
+ "timeout": 0
 }
