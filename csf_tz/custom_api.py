@@ -983,8 +983,14 @@ def check_validate_delivery_note(doc=None, method=None, doc_name=None):
     else:
         doc.delivery_status = "Not Delivered"
     if doc.to_save:
-        doc.flags.ignore_permissions = True
-        doc.save()
+        if doc.docstatus == 1:
+            doc.db_set("delivery_status", doc.delivery_status, commit=True)
+            for item in doc.items:
+                item.db_set("delivery_status", item.delivery_status, commit=True)
+                item.db_set("delivered_qty", item.delivered_qty, commit=True)
+        else:
+            doc.flags.ignore_permissions = True
+            doc.save()
 
 
 def check_submit_delivery_note(doc, method):

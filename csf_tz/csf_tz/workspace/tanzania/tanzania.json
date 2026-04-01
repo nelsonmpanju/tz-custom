@@ -1,4 +1,5 @@
 {
+ "app": "csf_tz",
  "charts": [],
  "content": "[{\"id\":\"ZY7FWXflbW\",\"type\":\"card\",\"data\":{\"card_name\":\"NSSF\",\"col\":4}},{\"id\":\"cjTCmDmsWv\",\"type\":\"card\",\"data\":{\"card_name\":\"TRA - PAYE\",\"col\":4}},{\"id\":\"CGFYeYk6-1\",\"type\":\"card\",\"data\":{\"card_name\":\"TRA - SDL\",\"col\":4}},{\"id\":\"PgsAC46Yyg\",\"type\":\"card\",\"data\":{\"card_name\":\"TRA - Withholding Tax\",\"col\":4}},{\"id\":\"k-FWtY4Pe4\",\"type\":\"card\",\"data\":{\"card_name\":\"TRA - VAT\",\"col\":4}},{\"id\":\"VdtrdGTg2S\",\"type\":\"card\",\"data\":{\"card_name\":\"HESLB\",\"col\":4}},{\"id\":\"4BlwO09h28\",\"type\":\"card\",\"data\":{\"card_name\":\"Setting\",\"col\":4}},{\"id\":\"YdRsx6Xu54\",\"type\":\"card\",\"data\":{\"card_name\":\"Consignment\",\"col\":4}},{\"id\":\"eq6R3Ceoa4\",\"type\":\"card\",\"data\":{\"card_name\":\"Location\",\"col\":4}},{\"id\":\"EbGJk44pM9\",\"type\":\"card\",\"data\":{\"card_name\":\"Payments\",\"col\":4}},{\"id\":\"AArHX635dy\",\"type\":\"card\",\"data\":{\"card_name\":\"Piecework\",\"col\":4}},{\"id\":\"3Ujgu_TumP\",\"type\":\"card\",\"data\":{\"card_name\":\"Employee Reports\",\"col\":4}},{\"id\":\"bCDXSMBSTE\",\"type\":\"card\",\"data\":{\"card_name\":\"Ledger Reports\",\"col\":4}},{\"id\":\"UBsc9PKF6b\",\"type\":\"card\",\"data\":{\"card_name\":\"Accounting\",\"col\":4}}]",
  "creation": "2025-02-27 09:46:51.663865",
@@ -100,7 +101,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "VAT eFiling Returns",
    "link_count": 0,
    "link_to": "VAT eFiling Returns",
@@ -111,7 +112,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "TRA Input VAT Returns eFiling",
    "link_count": 0,
    "link_to": "TRA Input VAT Returns eFiling",
@@ -122,7 +123,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Output VAT Reconciliation",
    "link_count": 0,
    "link_to": "Output VAT Reconciliation",
@@ -298,7 +299,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Supplier Ledger Summary Multicurrency",
    "link_count": 0,
    "link_to": "Supplier Ledger Summary Multicurrency",
@@ -357,7 +358,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Employee Checkin & Checkout Report",
    "link_count": 0,
    "link_to": "Employee Checkin & Checkout Report",
@@ -368,7 +369,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Monthly Timesheet Report",
    "link_count": 0,
    "link_to": "Monthly Timesheet Report",
@@ -379,7 +380,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Monthly Attendance Sheet",
    "link_count": 0,
    "link_to": "Monthly Attendance Sheet",
@@ -390,7 +391,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Salary Register CTC",
    "link_count": 0,
    "link_to": "Salary Register CTC",
@@ -401,7 +402,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Salary Register",
    "link_count": 0,
    "link_to": "Salary Register csf",
@@ -412,7 +413,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Salary Register Summary",
    "link_count": 0,
    "link_to": "Salary Register Summary",
@@ -423,7 +424,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Salary Register Summary with Components",
    "link_count": 0,
    "link_to": "Salary Register Summary with Components",
@@ -453,7 +454,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Supplier Ledger Summary",
    "link_count": 0,
    "link_to": "Supplier Ledger Summary",
@@ -464,7 +465,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Customer Ledger Summary",
    "link_count": 0,
    "link_to": "Customer Ledger Summary",
@@ -475,10 +476,10 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Stock Ledger",
    "link_count": 0,
-   "link_to": "Stock Ledger Mismatch",
+   "link_to": "Stock Ledger",
    "link_type": "Report",
    "onboard": 0,
    "report_ref_doctype": "Stock Ledger Entry",
@@ -486,7 +487,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "General Ledger Pro",
    "link_count": 0,
    "link_to": "General Ledger Pro",
@@ -497,7 +498,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Multi-Currency Ledger",
    "link_count": 0,
    "link_to": "Multi-Currency Ledger",
@@ -557,7 +558,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Gross Profit Pro",
    "link_count": 0,
    "link_to": "Gross Profit Pro",
@@ -568,7 +569,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Credit Note List",
    "link_count": 0,
    "link_to": "Credit Note List",
@@ -579,7 +580,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Sales Report by Type",
    "link_count": 0,
    "link_to": "Sales Report by Type",
@@ -590,7 +591,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Purchase Report by Type",
    "link_count": 0,
    "link_to": "Purchase Report by Type",
@@ -601,7 +602,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "USD Trial Balance Report",
    "link_count": 0,
    "link_to": "Trial Balance Report in USD",
@@ -612,7 +613,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Purchase Reports by Tax Category",
    "link_count": 0,
    "link_to": "Purchase Reports by Tax Category",
@@ -622,8 +623,8 @@
    "type": "Link"
   }
  ],
- "modified": "2025-02-28 11:09:33.988681",
- "modified_by": "kwamewilfrednk@gmail.com",
+ "modified": "2026-02-24 10:34:48.096015",
+ "modified_by": "Administrator",
  "module": "CSF TZ",
  "name": "Tanzania",
  "number_cards": [],
@@ -634,5 +635,6 @@
  "roles": [],
  "sequence_id": 28.0,
  "shortcuts": [],
- "title": "Tanzania"
+ "title": "Tanzania",
+ "type": "Workspace"
 }

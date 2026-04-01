@@ -1,0 +1,138 @@
+{%
+	var report_columns = report.get_columns_for_print();
+	var total_overtime_tsh = 0;
+	var total_extra_overtime = 0;
+	var total_overtime = 0;
+	for (var j = 0; j < data.length; j++) {
+		if (!data[j].is_total_row) {
+			total_overtime_tsh  += (parseFloat(data[j].overtime_tsh)  || 0);
+			total_extra_overtime += (parseFloat(data[j].extra_overtime) || 0);
+			total_overtime      += (parseFloat(data[j].total_overtime)  || 0);
+		}
+	}
+%}
+
+<style>
+	.ot-report-wrapper { font-family: Arial, sans-serif; font-size: 11px; }
+	.ot-header { text-align: center; margin-bottom: 6px; }
+	.ot-header h2 { margin: 0 0 2px 0; font-size: 15px; font-weight: bold; }
+	.ot-header h3 { margin: 0 0 2px 0; font-size: 13px; font-weight: normal; }
+	.ot-meta { text-align: center; margin-bottom: 10px; font-size: 11px; }
+	.ot-meta strong { font-weight: bold; }
+	hr.ot-divider { border: 0; border-top: 1px solid #555; margin: 6px 0 10px; }
+
+	table.ot-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+	table.ot-table th {
+		background-color: #d9d9d9;
+		border: 1px solid #666;
+		padding: 5px 6px;
+		text-align: center;
+		font-size: 10px;
+	}
+	table.ot-table td {
+		border: 1px solid #888;
+		padding: 4px 6px;
+		font-size: 10px;
+		vertical-align: middle;
+	}
+	table.ot-table td.num   { text-align: right; }
+	table.ot-table td.ctr   { text-align: center; }
+	table.ot-table tfoot td { background-color: #f0f0f0; font-weight: bold; }
+	table.ot-table td.sig   { min-width: 70px; }
+
+	.ot-signatures {
+		margin-top: 50px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.ot-sig-box { width: 42%; }
+	.ot-sig-title { font-weight: bold; font-size: 11px; margin-bottom: 4px; }
+	.ot-sig-line {
+		border-top: 1px solid #000;
+		margin-top: 45px;
+		padding-top: 4px;
+	}
+	.ot-sig-detail { font-size: 10px; margin-top: 3px; }
+	.ot-printed { text-align: right; color: #888; font-size: 9px; margin-top: 8px; }
+</style>
+
+<div class="ot-report-wrapper">
+
+	<!-- Header -->
+	<div class="ot-header">
+		{% if filters.company %}<h2>{%= filters.company %}</h2>{% endif %}
+		<h3>Weekly Overtime Attendance Report</h3>
+	</div>
+
+	<!-- Date range + filters -->
+	<div class="ot-meta">
+		<strong>Period: {%= filters.from_date %} &nbsp;to&nbsp; {%= filters.to_date %}</strong>
+		{% if filters.shift %}&nbsp;&nbsp;|&nbsp;&nbsp;Shift: <strong>{%= filters.shift %}</strong>{% endif %}
+		{% if filters.employee %}&nbsp;&nbsp;|&nbsp;&nbsp;Employee: <strong>{%= filters.employee %}</strong>{% endif %}
+	</div>
+
+	<hr class="ot-divider">
+
+	<!-- Main table -->
+	<table class="ot-table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Employee No</th>
+				<th>Employee Name</th>
+				<th>Total Days</th>
+				<th>Total Worked Hours</th>
+				<th>Overtime (TSH)</th>
+				<th>Extra Overtime (TSH)</th>
+				<th>Total Overtime (TSH)</th>
+				<th>Signature</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for (var j = 0; j < data.length; j++) { %}
+				{% var row = data[j]; %}
+				{% if (!row.is_total_row) { %}
+				<tr>
+					<td class="ctr">{%= j + 1 %}</td>
+					<td>{%= row.employee || '' %}</td>
+					<td>{%= row.employee_name || '' %}</td>
+					<td class="ctr">{%= row.total_days || 0 %}</td>
+					<td class="ctr">{%= row.total_worked_hours || '' %}</td>
+					<td class="num">{%= format_currency(row.overtime_tsh || 0) %}</td>
+					<td class="num">{%= format_currency(row.extra_overtime || 0) %}</td>
+					<td class="num">{%= format_currency(row.total_overtime || 0) %}</td>
+					<td class="sig">&nbsp;</td>
+				</tr>
+				{% } %}
+			{% } %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5" class="ctr">TOTAL</td>
+				<td class="num">{%= format_currency(total_overtime_tsh) %}</td>
+				<td class="num">{%= format_currency(total_extra_overtime) %}</td>
+				<td class="num">{%= format_currency(total_overtime) %}</td>
+				<td class="sig">&nbsp;</td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<!-- Signature section -->
+	<div class="ot-signatures">
+		<div class="ot-sig-box">
+			<div class="ot-sig-title">Prepared By</div>
+			<div class="ot-sig-line"></div>
+			<div class="ot-sig-detail">Name: ___________________________</div>
+			<div class="ot-sig-detail">Date: ___________________________</div>
+		</div>
+		<div class="ot-sig-box">
+			<div class="ot-sig-title">Approved By</div>
+			<div class="ot-sig-line"></div>
+			<div class="ot-sig-detail">Name: ___________________________</div>
+			<div class="ot-sig-detail">Date: ___________________________</div>
+		</div>
+	</div>
+
+	<p class="ot-printed">Printed On: {%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %}</p>
+
+</div>
